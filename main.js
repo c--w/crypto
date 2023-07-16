@@ -12,7 +12,7 @@ var gamemode;
 var level;
 var last_selected;
 var hints;
-const NUM_WORDS=5;
+const NUM_WORDS=30;
 function init() {
     let all_words_div = document.querySelector("#all_words_div");
     all_words_div.onclick = (event) => handleClick(event);
