@@ -120,16 +120,7 @@ function handleClick(event) {
                 return;
             let num = el.data('n'); 
             let l = el.data('l');
-            let divs = $('#all_words_div div[n=' + num + ']'); 
-            divs.addClass('success');
-            setTimeout(() => {
-                divs.removeClass('success');
-            }, 1000)
-        
-            divs.addClass('l');
-            divs.toArray().forEach(div => { 
-                $(div).find('span')[0].innerHTML = l;
-            });
+            revealLetter(num, l);
             $($('#hints i:visible')[0]).hide();
             hints--;
             return;
@@ -141,28 +132,39 @@ function handleClick(event) {
     return;
 }
 
-function handleKeyClick(event) {
-    let key = $(event.target);
-    $("#keyboard-div").hide();
-    let l = key.data('l');
-    let selected = $('#all_words_div div.selected');
-    let num = selected.data('n');
+function revealLetter(num, l, del) {
     let divs = $('#all_words_div div[n=' + num + ']'); 
     divs.addClass('success');
     setTimeout(() => {
         divs.removeClass('success');
     }, 1000)
-    if (key.hasClass('del')) {
-        if (!isNaN(Number(selected.text())))
-            return;
+    if(del) {
         divs.removeClass('l');
         divs.toArray().forEach(div => $(div).find('span')[0].innerHTML = num);
+        $('.key[l='+l+']').removeClass('success');
     } else {
-        let key_l = key.data('l');
         divs.addClass('l');
         divs.toArray().forEach(div => { 
             $(div).find('span')[0].innerHTML = l;
         });
+        $('.key[l='+l+']').addClass('success');
+    }
+}
+
+function handleKeyClick(event) {
+    let key = $(event.target);
+    $("#keyboard-div").hide();
+    let selected = $('#all_words_div div.selected');
+    let num = selected.data('n');
+    let l = key.data('l');
+    if (key.hasClass('del')) {
+        if (!isNaN(Number(selected.text())))
+            return;
+        l = selected.text();
+        revealLetter(num, l, true)
+    } else {
+        let l = key.data('l');
+        revealLetter(num, l)
         if(solved()) {
             setTimeout(() => {
                 $('#all_words_div > div.full').addClass('winner2');
