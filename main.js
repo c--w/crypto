@@ -14,8 +14,7 @@ var last_selected;
 var hints;
 function init() {
     let all_words_div = document.querySelector("#all_words_div");
-    all_words_div.onmousedown = (event) => handleClick(event);
-    all_words_div.ontouchstart = (event) => handleClick(event);
+    all_words_div.onclick = (event) => handleClick(event);
     $(".key")
         .toArray()
         .forEach((key) => {
@@ -99,7 +98,7 @@ function initGame() {
 
 function findAllGuessWords() {
     all_guess_words = new Set();
-    while(all_guess_words.size < 20) {
+    while(all_guess_words.size < 30) {
         all_guess_words.add(getRandomWord());
     }
     all_guess_words_arr = Array.from(all_guess_words);
@@ -113,10 +112,6 @@ function handleClick(event) {
     click_time = Date.now();
     let el = $(event.target);
     if (el.hasClass('full') || el.parent().hasClass('full')) {
-        if (event.stopPropagation) {
-            event.stopPropagation();
-            event.preventDefault();
-        }
         if(!el.hasClass('full'))
             el = el.parent();
         effect(el);
@@ -143,6 +138,7 @@ function handleClick(event) {
         $("#all_words_div div").removeClass('selected')
         el.addClass('selected');
     }
+    return;
 }
 
 function handleKeyClick(event) {
