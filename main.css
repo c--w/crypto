@@ -1,7 +1,7 @@
 @import url("bootstrap-icons.css");
 
 html {
-    font-size: min(4vw, 26px);
+    font-size: min(4vw, 18px);
 }
 
 :root {
@@ -76,7 +76,7 @@ body {
 }
 
 .selected {
-    background-color: hsl(140 100% 40%);
+    background-color:#ccc;
     border: 0;
 }
 

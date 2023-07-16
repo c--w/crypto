@@ -44,8 +44,7 @@ function init() {
     $("#level").on("change", changeGame);
     changeGame();
     window.onresize = function () {
-        if (gamemode > 7)
-            calculateCSS();
+        calculateCSS();
     }
 }
 
@@ -63,7 +62,6 @@ function changeGame() {
     total_time = 0;
     games = 0;
     start_time = 0;
-    hints = 5;
     initKeyboard();
     setBckg();
     initGame();
@@ -77,7 +75,9 @@ function initKeyboard() {
         ["Š", "Đ", "Č", "Ć", "Ž", "NJ", "DŽ", "LJ"].forEach(l => $('[l="' + l + '"]').show());
         ["Q", "W", "X", 'Y'].forEach(l => $('[l="' + l + '"]').hide());
     }
-    $("#keyboard-div").hide();;
+    $("#keyboard-div").hide();
+    $('.key').removeClass('success');
+
 }
 
 function initGame() {
@@ -88,7 +88,7 @@ function initGame() {
     var url = window.location.origin + window.location.pathname + "#" + seed_url;
     $("#share-url").val(url);
     $("#seed").attr('title', startseed);
-    guess_word = getRandomWord();
+    hints = 5;
     findAllGuessWords();
     fillBoard(all_guess_words_arr);
     $('#all_words_div').show();
@@ -115,29 +115,28 @@ function handleClick(event) {
         if(!el.hasClass('full'))
             el = el.parent();
         effect(el);
+        let num = el.data('n'); 
+        let l = el.data('l');
         if(hints) {
             if(el.hasClass('l'))
                 return;
-            let num = el.data('n'); 
-            let l = el.data('l');
             revealLetter(num, l);
             $($('#hints i:visible')[0]).hide();
             hints--;
             return;
+        } else {
+            $("#all_words_div div").removeClass('selected')
+            $('#all_words_div div[n=' + num + ']').addClass('selected');
         }
         $("#keyboard-div").css('display', 'flex');
-        $("#all_words_div div").removeClass('selected')
-        el.addClass('selected');
     }
     return;
 }
 
 function revealLetter(num, l, del) {
-    let divs = $('#all_words_div div[n=' + num + ']'); 
-    divs.addClass('success');
-    setTimeout(() => {
-        divs.removeClass('success');
-    }, 1000)
+    let divs = $('#all_words_div div[n=' + num + ']');
+    $("#all_words_div div").removeClass('selected')
+    divs.addClass('selected');
     if(del) {
         divs.removeClass('l');
         divs.toArray().forEach(div => $(div).find('span')[0].innerHTML = num);
@@ -160,7 +159,7 @@ function handleKeyClick(event) {
     if (key.hasClass('del')) {
         if (!isNaN(Number(selected.text())))
             return;
-        l = selected.text();
+        l = $(selected[0]).text();
         revealLetter(num, l, true)
     } else {
         let l = key.data('l');

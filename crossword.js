@@ -110,6 +110,7 @@ function fillBoard(words) { //instantiator object for making gameboards
                 div.data('l', l);
                 div.data('n', n);
                 div.attr('n', n);
+                div.attr('l', l);
             }
             $('#all_words_div').append(div);
         }
