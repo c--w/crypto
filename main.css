@@ -1,0 +1,309 @@
+@import url("bootstrap-icons.css");
+
+html {
+    font-size: min(4vw, 26px);
+}
+
+:root {
+    --border-light-color: #ccc;
+    --main-box-margin: 2px;
+    --inner-box-margin: 1px;
+    --box-border-width: 2px;
+}
+
+:root {
+    --green: #6aaa64;
+    --darkendGreen: #538d4e;
+    --yellow: #c9b458;
+    --darkendYellow: #b59f3b;
+    --lightGray: #d8d8d8;
+    --gray: #86888a;
+    --darkGray: #939598;
+    --white: #fff;
+    --black: #212121;
+    --orange: #f5793a;
+    --blue: #85c0f9;
+    --color-tone-1: #1a1a1b;
+    --color-tone-2: #787c7e;
+    --color-tone-3: #878a8c;
+    --color-tone-4: #d3d6da;
+    --color-tone-5: #edeff1;
+    --color-tone-6: #f6f7f8;
+    --color-tone-7: #ffffff;
+    --color-present: var(--yellow);
+    --color-correct: var(--green);
+    --color-absent: var(--color-tone-2);
+    --tile-text-color: var(--color-tone-7);
+    --key-text-color: var(--color-tone-1);
+    --key-evaluated-text-color: var(--color-tone-7);
+    --key-bg: var(--color-tone-4);
+    --key-bg-present: var(--color-present);
+    --key-bg-correct: var(--color-correct);
+    --key-bg-absent: var(--color-absent);
+    --key-bg-active: var(--blue);
+    --color-background: var(--color-tone-7);
+    --color-background-t: #ffffffaa;
+    --factor: 1;
+    font-family: "Clear Sans", "Helvetica Neue", Arial, sans-serif;
+}
+
+
+* {
+    transition: all .3s ease-out;
+    transition: transform .8s ease-out;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: sans-serif;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    font-weight: 900;
+    color: #444444;
+    background-color: beige;
+}
+
+#menu {
+    align-self: center;
+    width: auto;
+}
+
+#hints {
+    display: none;
+    justify-content: center;
+    margin-top: 2vh;
+}
+
+.selected {
+    background-color: hsl(140 100% 40%);
+    border: 0;
+}
+
+.hidden {
+    opacity: 0;
+}
+
+.winner {
+    background-color: goldenrod;
+    transition: all 0.5s cubic-bezier(0.5, -0.5, 0.5, 2);
+    border: 0;
+    box-shadow: 0px 0px 5vmin 0px gold;
+    border-radius: 5%;
+}
+.winner2 {
+    box-shadow: 0px 0px 1vmin 0px gold;
+    border: 2px solid gold !important;
+}
+.success {
+    background-color: goldenrod;
+    transition: all 0.25s cubic-bezier(0.5, -0.5, 0.5, 2);
+}
+
+.effect {
+    background-color: gray;
+    transition: all 0.1s cubic-bezier(0.5, -0.5, 0.5, 2);
+}
+
+#all_words_div {
+    margin-top: 2vh;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(1, min(6vw, 40px));
+    grid-template-rows: repeat(1, min(6vw, 40px));
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;    
+}
+
+#all_words_div div {
+    margin: var(--main-box-margin);
+    color: #888;
+    font-family: 'Roboto Mono', monospace;
+    font-weight: bold;
+    transition: color 1.5s;
+    border: 0;
+    display: grid;
+    position: relative;
+    justify-content: center;
+    align-content: center;
+    font-size: smaller;
+}
+
+#all_words_div div.l {
+    color: #555;
+    font-size: inherit;
+}
+#all_words_div div div {
+    margin: var(--inner-box-margin);
+}
+#all_words_div div i {
+    position: absolute;
+    background-color: #555;
+}
+#all_words_div div.full {
+    border: 2px solid #555;
+    border-width: var(--box-border-width);
+    cursor: pointer;
+}
+#all_words_div div.full.top {
+    border-bottom-color: var(--border-light-color);
+}
+#all_words_div div i.bottom {
+    width: 1px;
+    height: calc(2*var(--main-box-margin));
+    top: calc(100% + 1*var(--main-box-margin));
+    left: 50%;
+    transform: translateX(-50%);
+}
+#all_words_div div.full.bottom {
+    border-top-color: var(--border-light-color);
+}
+#all_words_div div i.top {
+    width: 1px;
+    height: calc(2*var(--main-box-margin));
+    top: calc(0px - 3*var(--main-box-margin));
+    left: 50%;
+    transform: translateX(-50%);
+}
+#all_words_div div.full.vertical {
+    border-top-color: var(--border-light-color);
+    border-bottom-color: var(--border-light-color);
+}
+#all_words_div div.full.left {
+    border-right-color: var(--border-light-color);
+}
+#all_words_div div i.right {
+    height: 1px;
+    width: calc(2*var(--main-box-margin));
+    left: calc(100% + 1*var(--main-box-margin));
+    top: 50%;
+    transform: translateY(-50%);
+}
+#all_words_div div.full.right {
+    border-left-color: var(--border-light-color);
+}
+#all_words_div div i.left {
+    height: 1px;
+    width: calc(2*var(--main-box-margin));
+    left: calc(0px - 3*var(--main-box-margin));
+    top: 50%;
+    transform: translateY(-50%);
+}
+#all_words_div div.full.horizontal {
+    border-left-color: var(--border-light-color);
+    border-right-color: var(--border-light-color);
+}
+
+#all_words_div div div.bckg {
+    position: absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    z-index: -1;
+}
+
+#stats {
+    font-size: min(3vmin, 18px);
+    font-weight: 400;
+    position: fixed;
+    bottom: 1.5vmax;
+    left: 1.5vmax;
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    grid-template-rows: repeat(5, 1fr);
+    grid-column-gap: 2vmin;
+    grid-row-gap: 0;
+    max-width: 25%;
+}
+
+#stats span:nth-child(even) {
+    text-align: end;
+}
+
+#seed {
+    font-weight: 400;
+    font-size: min(2.5vmax, 24px);
+    position: fixed;
+    bottom: 1.5vmax;
+    right: 1.5vmax;
+    cursor: pointer;
+    color: dodgerblue;
+}
+
+#share-url {
+    position: absolute;
+    top: -1000px;
+}
+
+#keyboard-div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.keyboard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: fixed;
+    background-color: var(--color-background-t);
+    bottom: 0px;
+}
+
+.key-row {
+    display: flex;
+    flex-grow: 1;
+}
+
+.key {
+    color: var(--key-text-color);
+    padding: 5px;
+    margin: 2px;
+    height: 48px;
+    min-width: 45px;
+    border: 0;
+    background-color: transparent;
+    font-size: 20px;
+    transition: background-color 0.1s linear;
+    touch-action: manipulation;
+    position: relative;
+}
+
+.del,
+.enter {
+    background-color: var(--color-tone-5);
+}
+
+.key-div {
+    position: absolute;
+    z-index: -1;
+    left: 0;
+    right: 0;
+    background-color: var(--color-tone-6);
+    transition: background-color 0.2s linear, top 0.2s ease-out,
+        bottom 0.2s ease-out;
+}
+
+.key-bckg-div {
+    position: absolute;
+    z-index: -2;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-color: var(--color-tone-6);
+}
+
+.key.pressed {
+    background-color: var(--color-tone-7);
+}
+
+@media (max-width: 560px) {
+    .key {
+        min-width: 8vw;
+        margin: 0.4vw;
+    }
+}
