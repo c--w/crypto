@@ -115,6 +115,8 @@ body {
     grid-template-rows: repeat(1, min(6vw, 40px));
     grid-column-gap: 0px;
     grid-row-gap: 0px;    
+    padding-bottom: 2vh;
+    z-index: 1;
 }
 
 #all_words_div div {
@@ -242,6 +244,8 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    z-index: 2;
+    font-size: larger;
 }
 
 .keyboard {

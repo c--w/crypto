@@ -12,6 +12,7 @@ var gamemode;
 var level;
 var last_selected;
 var hints;
+const NUM_WORDS=5;
 function init() {
     let all_words_div = document.querySelector("#all_words_div");
     all_words_div.onclick = (event) => handleClick(event);
@@ -76,8 +77,6 @@ function initKeyboard() {
         ["Q", "W", "X", 'Y'].forEach(l => $('[l="' + l + '"]').hide());
     }
     $("#keyboard-div").hide();
-    $('.key').removeClass('success');
-
 }
 
 function initGame() {
@@ -89,6 +88,8 @@ function initGame() {
     $("#share-url").val(url);
     $("#seed").attr('title', startseed);
     hints = 5;
+    $('#hints i').show();
+    $('.key').removeClass('success');
     findAllGuessWords();
     fillBoard(all_guess_words_arr);
     $('#all_words_div').show();
@@ -98,7 +99,7 @@ function initGame() {
 
 function findAllGuessWords() {
     all_guess_words = new Set();
-    while(all_guess_words.size < 30) {
+    while(all_guess_words.size < NUM_WORDS) {
         all_guess_words.add(getRandomWord());
     }
     all_guess_words_arr = Array.from(all_guess_words);
@@ -121,7 +122,7 @@ function handleClick(event) {
             if(el.hasClass('l'))
                 return;
             revealLetter(num, l);
-            $($('#hints i:visible')[0]).hide();
+                $($('#hints i:visible')[0]).hide();
             hints--;
             return;
         } else {
