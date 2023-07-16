@@ -108,15 +108,15 @@ function findAllGuessWords() {
 
 var click_time = 0;
 function handleClick(event) {
-    if (event.stopPropagation) {
-        event.stopPropagation();
-        event.preventDefault();
-    }
     if (Date.now() - click_time < 100)
         return false;
     click_time = Date.now();
     let el = $(event.target);
     if (el.hasClass('full') || el.parent().hasClass('full')) {
+        if (event.stopPropagation) {
+            event.stopPropagation();
+            event.preventDefault();
+        }
         if(!el.hasClass('full'))
             el = el.parent();
         effect(el);
