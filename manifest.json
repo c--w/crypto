@@ -1,8 +1,8 @@
 {
-    "name": "Words",
-    "short_name": "Words",
-    "scope": "/words/",
-    "start_url": "/words/",
+    "name": "Crypto Crossword",
+    "short_name": "Crypto",
+    "scope": "/crypto/",
+    "start_url": "/crypto/",
     "icons": [
         {
             "src": "android-chrome-192x192.png",

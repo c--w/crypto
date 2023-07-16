@@ -167,9 +167,22 @@ function handleKeyClick(event) {
         divs.toArray().forEach(div => { 
             $(div).find('span')[0].innerHTML = l;
         });
+        if(solved()) {
+            setTimeout(() => {
+                $('#all_words_div > div.full').addClass('winner2');
+            }, 500)
+            games++;
+            last_time = Math.round((Date.now() - start_time) / 1000);
+            total_time += last_time;
+            setTimeout(initGame, 3000);
+        }
     }
 }
-
+function solved() {
+    return !$('#all_words_div > div.full span').toArray().find(span => {
+        return span.innerHTML != $(span).parent().data('l');
+    })
+}
 function randomsort(a, b) {
     return Math.random() * 2 - 1;
 }
