@@ -137,6 +137,9 @@ body {
     color: #555;
     font-size: inherit;
 }
+#all_words_div div.fixed {
+    font-style: italic;
+}
 #all_words_div div div {
     margin: var(--inner-box-margin);
 }

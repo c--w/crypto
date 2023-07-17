@@ -122,11 +122,14 @@ function handleClick(event) {
         if(hints) {
             if(el.hasClass('l'))
                 return;
-            revealLetter(num, l);
+            revealLetter(num, l, null, true);
                 $($('#hints i:visible')[0]).hide();
             hints--;
             return;
         } else {
+            if(el.hasClass('fixed')) {
+                return;
+            }
             $("#all_words_div div").removeClass('selected')
             $('#all_words_div div[n=' + num + ']').addClass('selected');
         }
@@ -135,10 +138,12 @@ function handleClick(event) {
     return;
 }
 
-function revealLetter(num, l, del) {
+function revealLetter(num, l, del, fixed) {
     let divs = $('#all_words_div div[n=' + num + ']');
     $("#all_words_div div").removeClass('selected')
     divs.addClass('selected');
+    if(fixed)
+        divs.addClass('fixed');
     if(del) {
         divs.removeClass('l');
         divs.toArray().forEach(div => $(div).find('span')[0].innerHTML = num);
