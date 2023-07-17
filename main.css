@@ -245,7 +245,6 @@ body {
     flex-direction: column;
     align-items: center;
     z-index: 2;
-    font-size: larger;
 }
 
 .keyboard {
@@ -262,7 +261,7 @@ body {
     flex-grow: 1;
 }
 
-.key {
+button.key {
     color: var(--key-text-color);
     padding: 5px;
     margin: 2px;
@@ -271,6 +270,7 @@ body {
     transition: background-color 0.1s linear;
     touch-action: manipulation;
     position: relative;
+    font-size: larger;
 }
 
 .del,

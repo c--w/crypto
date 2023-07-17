@@ -103,7 +103,8 @@ function findAllGuessWords() {
         all_guess_words.add(getRandomWord());
     }
     all_guess_words_arr = Array.from(all_guess_words);
-    console.table(Array.from(all_guess_words));
+    all_guess_words_arr.sort((a,b) => [...a].sort().join('') - [...b].sort().join(''))
+    console.table(all_guess_words_arr);
 }
 
 var click_time = 0;
@@ -156,6 +157,7 @@ function handleKeyClick(event) {
     $("#keyboard-div").hide();
     let selected = $('#all_words_div div.selected');
     let num = selected.data('n');
+    let ll = $('#all_words_div div.selected span')[0].innerText;
     let l = key.data('l');
     if (key.hasClass('del')) {
         if (!isNaN(Number(selected.text())))
@@ -164,6 +166,9 @@ function handleKeyClick(event) {
         revealLetter(num, l, true)
     } else {
         let l = key.data('l');
+        if(isNaN(Number(ll))) {
+            $('.key[l='+ll+']').removeClass('success');
+        }
         revealLetter(num, l)
         if(solved()) {
             setTimeout(() => {
@@ -178,7 +183,7 @@ function handleKeyClick(event) {
 }
 function solved() {
     return !$('#all_words_div > div.full span').toArray().find(span => {
-        return span.innerHTML != $(span).parent().data('l');
+        return span.innerText != $(span).parent().data('l');
     })
 }
 function randomsort(a, b) {
