@@ -76,7 +76,7 @@ body {
 }
 
 .selected {
-    background-color:#ccc;
+    background-color:#bbb;
     border: 0;
 }
 
@@ -131,6 +131,7 @@ body {
     justify-content: center;
     align-content: center;
     font-size: smaller;
+    transition: background-color 0.6s linear;
 }
 
 #all_words_div div.l {
@@ -138,7 +139,7 @@ body {
     font-size: inherit;
 }
 #all_words_div div.fixed {
-    font-style: italic;
+    text-decoration: #888 underline;
 }
 #all_words_div div div {
     margin: var(--inner-box-margin);

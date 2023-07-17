@@ -103,7 +103,6 @@ function findAllGuessWords() {
         all_guess_words.add(getRandomWord());
     }
     all_guess_words_arr = Array.from(all_guess_words);
-    all_guess_words_arr.sort((a,b) => [...a].sort().join('') - [...b].sort().join(''))
     console.table(all_guess_words_arr);
 }
 
