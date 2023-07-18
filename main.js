@@ -13,7 +13,7 @@ var level;
 var last_selected;
 var hints;
 const NUM_WORDS = 30;
-const VERSION = "v1.1";
+const VERSION = "v1.3";
 function init() {
     $('#version').text(VERSION);
     let all_words_div = document.querySelector("#all_words_div");
@@ -144,9 +144,9 @@ function handleClick(event) {
 
 function showKeyboard(el) {
     if(iOS()) {
-       ;//return; 
+        $('#version').text(window.visualViewport.width+" "+screen.width);;//return; 
     }
-    let scale = (window.visualViewport.width || window.innerWidth) / window.innerWidth;
+    let scale = (window.visualViewport.width || screen.width) / screen.width;
     const target = el;
     const popover = $("#keyboard-div");
     popover.css('transform', 'scale(' + scale + ')');
@@ -159,8 +159,8 @@ function showKeyboard(el) {
     let left = targetRect.left + target.width() / 2 - w / 2;
     if (left < -(1-scale)*w/2)
         left = -(1-scale)*w/2;
-    if (left + w - w * (1-scale)/2 > window.innerWidth)
-        left = window.innerWidth - w + w * (1-scale)/2;
+    if (left + w - w * (1-scale)/2 > screen.width)
+        left = screen.width - w + w * (1-scale)/2;
     popover.css("top", `${top + 8}px`);
     popover.css("left", `${left}px`);
 }
