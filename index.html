@@ -2,14 +2,6 @@
 <html>
 
 <head>
-  <script>
-    if (navigator.serviceWorker) {
-      navigator.serviceWorker.register(
-        '/crypto/service_w.js?r=' + Math.random(),
-        { scope: '/crypto/' }
-      )
-    }
-  </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Crypto Crossword</title>
@@ -26,9 +18,6 @@
 
 <body>
   <div id="menu" class="input-group">
-    <button id="hint" class="btn btn-outline-secondary" onclick="hint();">
-      <i class="bi bi-lightbulb-fill"></i>
-    </button>
     <select id="gamemode" class="form-select" name="gamemode">
       <option value="4">do 4 slova</option>
       <option value="5" selected>do 5 slova</option>
@@ -41,9 +30,6 @@
       <option value="3">Nivo 3</option>
       <option value="4">Eng. riječi</option>
     </select>
-    <button id="reload" class="btn btn-outline-secondary" onclick="scrambleAndFill();">
-      <i class="bi bi-shuffle"></i>
-    </button>
   </div>
 
   <div id="hints">
@@ -57,6 +43,8 @@
     <span>Σ: </span><span id="total">0</span>
     <span>μ: </span><span id="avg"></span>
     <span>min μ (<span id="best-games"></span>):</span><span id="best"></span>
+  </div>
+  <div id="version" onclick="location.reload(true)">
   </div>
   <div id="seed" onclick="share()">
     <i class="bi bi-share"></i>

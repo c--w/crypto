@@ -13,7 +13,9 @@ var level;
 var last_selected;
 var hints;
 const NUM_WORDS = 30;
+const VERSION = "v1.1";
 function init() {
+    $('#version').text(VERSION);
     let all_words_div = document.querySelector("#all_words_div");
     all_words_div.onclick = (event) => handleClick(event);
     $(".key")
@@ -142,7 +144,7 @@ function handleClick(event) {
 
 function showKeyboard(el) {
     if(iOS()) {
-       return; 
+       ;//return; 
     }
     let scale = (window.visualViewport.width || window.innerWidth) / window.innerWidth;
     const target = el;

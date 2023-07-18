@@ -62,7 +62,6 @@ body {
     font-weight: 900;
     color: #444444;
     background-color: beige;
-    max-width: 100vw;
 }
 
 #menu {
@@ -232,7 +231,7 @@ body {
     text-align: end;
 }
 
-#seed {
+#seed, #version {
     font-weight: 400;
     font-size: min(2.5vmax, 24px);
     position: fixed;
@@ -242,6 +241,10 @@ body {
     color: dodgerblue;
 }
 
+#version {
+    font-size: min(3vmin, 18px);
+    right: 50vw;
+}
 #share-url {
     position: absolute;
     top: -1000px;
