@@ -62,6 +62,8 @@ body {
     font-weight: 900;
     color: #444444;
     background-color: beige;
+    position: relative;
+    overflow: scroll;
 }
 
 #menu {
@@ -105,104 +107,93 @@ body {
     transition: all 0.1s cubic-bezier(0.5, -0.5, 0.5, 2);
 }
 
-#all_words_div {
+table {
     margin-top: 2vh;
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    display: grid;
-    grid-template-columns: repeat(1, min(6vw, 40px));
-    grid-template-rows: repeat(1, min(6vw, 40px));
-    grid-column-gap: 0px;
-    grid-row-gap: 0px;    
-    padding-bottom: 2vh;
-    z-index: 1;
 }
-
-#all_words_div div {
+#all_words_div td {
     margin: var(--main-box-margin);
     color: #888;
     font-family: 'Roboto Mono', monospace;
     font-weight: bold;
     transition: color 1.5s;
     border: 0;
-    display: grid;
     position: relative;
     justify-content: center;
     align-content: center;
     font-size: smaller;
+    text-align: center;
     transition: background-color 0.6s linear;
 }
 
-#all_words_div div.l {
+#all_words_div td.l {
     color: #555;
     font-size: inherit;
 }
-#all_words_div div.fixed {
+#all_words_div td.fixed {
     text-decoration: #888 underline;
 }
-#all_words_div div div {
+#all_words_div td div {
     margin: var(--inner-box-margin);
 }
-#all_words_div div i {
+#all_words_div td i {
     position: absolute;
     background-color: #555;
 }
-#all_words_div div.full {
+#all_words_div td.full {
     border: 2px solid #555;
     border-width: var(--box-border-width);
     cursor: pointer;
 }
-#all_words_div div.full.top {
+#all_words_div td.full.top {
     border-bottom-color: var(--border-light-color);
 }
-#all_words_div div i.bottom {
+#all_words_div td i.bottom {
     width: 1px;
     height: calc(2*var(--main-box-margin));
     top: calc(100% + 1*var(--main-box-margin));
     left: 50%;
     transform: translateX(-50%);
 }
-#all_words_div div.full.bottom {
+#all_words_div td.full.bottom {
     border-top-color: var(--border-light-color);
 }
-#all_words_div div i.top {
+#all_words_div td i.top {
     width: 1px;
     height: calc(2*var(--main-box-margin));
     top: calc(0px - 3*var(--main-box-margin));
     left: 50%;
     transform: translateX(-50%);
 }
-#all_words_div div.full.vertical {
+#all_words_div td.full.vertical {
     border-top-color: var(--border-light-color);
     border-bottom-color: var(--border-light-color);
 }
-#all_words_div div.full.left {
+#all_words_div td.full.left {
     border-right-color: var(--border-light-color);
 }
-#all_words_div div i.right {
+#all_words_div td i.right {
     height: 1px;
     width: calc(2*var(--main-box-margin));
     left: calc(100% + 1*var(--main-box-margin));
     top: 50%;
     transform: translateY(-50%);
 }
-#all_words_div div.full.right {
+#all_words_div td.full.right {
     border-left-color: var(--border-light-color);
 }
-#all_words_div div i.left {
+#all_words_div td i.left {
     height: 1px;
     width: calc(2*var(--main-box-margin));
     left: calc(0px - 3*var(--main-box-margin));
     top: 50%;
     transform: translateY(-50%);
 }
-#all_words_div div.full.horizontal {
+#all_words_div td.full.horizontal {
     border-left-color: var(--border-light-color);
     border-right-color: var(--border-light-color);
 }
 
-#all_words_div div div.bckg {
+#all_words_div td div.bckg {
     position: absolute;
     top:0;
     left:0;
