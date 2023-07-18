@@ -145,6 +145,7 @@ function showKeyboard(el) {
     const target = el;
     const popover = $("#keyboard-div");
     popover.css('transform', 'scale(' + scale + ')');
+    popover.css('-webkit-transform', 'scale(' + scale + ','+ scale + ')');
 
     const targetRect = target.offset();
     const popoverRect = popover.offset();
