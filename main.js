@@ -13,7 +13,10 @@ var level;
 var last_selected;
 var hints;
 const NUM_WORDS=30;
+var wwidth, wheight;
 function init() {
+    wwidth = window.innerWidth;
+    wheight = window.innerHeight;
     let all_words_div = document.querySelector("#all_words_div");
     all_words_div.onclick = (event) => handleClick(event);
     $(".key")

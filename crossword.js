@@ -96,12 +96,11 @@ function fillBoard(words) { //instantiator object for making gameboards
     $('#all_words_div').empty();
     let all_letters = new Set();    
     for (var i = 0; i < rows; i++) {
-        let tr = $('<tr>');
         grid2[i] = new Array(cols);
         for (var j = 0; j < cols; j++) {
             let l = grid[i + miny][j + minx];;
             grid2[i][j] = l;
-            let div = $('<td>');
+            let div = $('<div>');
             if (l) {
                 div.addClass('full');
                 all_letters.add(l);
@@ -112,11 +111,10 @@ function fillBoard(words) { //instantiator object for making gameboards
                 div.attr('n', n);
                 div.attr('l', l);
             }
-            tr.append(div);
+            $('#all_words_div').append(div);
         }
-        $('#all_words_div').append(tr);
     }
-    let all_divs = $($('#all_words_div td'));
+    let all_divs = $($('#all_words_div div'));
     let color_step = Math.floor(360 / words.length);
     coords.forEach((c, i) => {
         let yf = i % 2;
@@ -158,15 +156,15 @@ function fillBoard(words) { //instantiator object for making gameboards
             }
         }
     })
-    calculateCSS();
     $("#hints").css("display", "flex");
     console.table(grid2);
+    calculateCSS();
 }
 
 function calculateCSS() {
-    let innerWidth = window.innerWidth;
-    if(innerWidth < window.innerHeight)
-        innerWidth *= window.innerHeight/window.innerWidth;
+    let innerWidth =screen.width;
+    if(screen.width < screen.height)
+        ;//innerWidth *= screen.height/screen.width;
     let width = Math.floor(innerWidth/(g_cols));
     if(width>80)
         width = 80;
@@ -176,13 +174,7 @@ function calculateCSS() {
     document.querySelector(':root').style.setProperty('--main-box-margin', margin+'px');
     document.querySelector(':root').style.setProperty('--inner-box-margin', margin2+'px');
     document.querySelector(':root').style.setProperty('--box-border-width', margin+'px');
-    /*
     $('#all_words_div').css("grid-template-columns", "repeat(" + g_cols + ", " + width + "px)");
     $('#all_words_div').css("grid-template-rows", "repeat(" + g_rows + ", " + width + "px)");
-    */
     $('#all_words_div').css("font-size", width / 2 + "px");
-    $('#all_words_div td').css('width', width+"px")
-    $('#all_words_div td').css('height', width+"px")
-    $('#all_words_div').parent().css('width', ((g_cols)*width)+"px");
-    $('#all_words_div').parent().css('height', (g_rows*width)+"px");
 }
