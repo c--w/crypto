@@ -255,6 +255,7 @@ body {
     position: absolute;
     transition: 0s;
     top: 50%;
+    left: 0;
 }
 
 .keyboard {
