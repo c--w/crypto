@@ -134,6 +134,8 @@ function handleClick(event) {
         }
         $("#keyboard-div").css('display', 'flex');
         showKeyboard(el);
+    } else {
+        $("#keyboard-div").hide();
     }
     return;
 }
