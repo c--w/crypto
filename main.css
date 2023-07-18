@@ -136,6 +136,7 @@ body {
     cursor: pointer;
     justify-content: left;
     align-content: start;
+    padding-left: 5%;
 }
 
 #all_words_div div.l {
@@ -143,6 +144,7 @@ body {
     font-size: inherit;
     justify-content: center;
     align-content: center;
+    padding-left: 0;
 }
 #all_words_div div.fixed {
     text-decoration: #888 underline;
