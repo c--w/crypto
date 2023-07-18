@@ -13,7 +13,7 @@ var level;
 var last_selected;
 var hints;
 const NUM_WORDS = 30;
-const VERSION = "v1.3";
+const VERSION = "v1.4";
 function init() {
     $('#version').text(VERSION);
     let all_words_div = document.querySelector("#all_words_div");
