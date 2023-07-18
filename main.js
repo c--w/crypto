@@ -12,11 +12,8 @@ var gamemode;
 var level;
 var last_selected;
 var hints;
-const NUM_WORDS=30;
-var wwidth, wheight;
+const NUM_WORDS = 30;
 function init() {
-    wwidth = window.innerWidth;
-    wheight = window.innerHeight;
     let all_words_div = document.querySelector("#all_words_div");
     all_words_div.onclick = (event) => handleClick(event);
     $(".key")
@@ -102,7 +99,7 @@ function initGame() {
 
 function findAllGuessWords() {
     all_guess_words = new Set();
-    while(all_guess_words.size < NUM_WORDS) {
+    while (all_guess_words.size < NUM_WORDS) {
         all_guess_words.add(getRandomWord());
     }
     all_guess_words_arr = Array.from(all_guess_words);
@@ -116,46 +113,66 @@ function handleClick(event) {
     click_time = Date.now();
     let el = $(event.target);
     if (el.hasClass('full') || el.parent().hasClass('full')) {
-        if(!el.hasClass('full'))
+        if (!el.hasClass('full'))
             el = el.parent();
         effect(el);
-        let num = el.data('n'); 
+        let num = el.data('n');
         let l = el.data('l');
-        if(hints) {
-            if(el.hasClass('l'))
+        if (hints) {
+            if (el.hasClass('l'))
                 return;
             revealLetter(num, l, null, true);
-                $($('#hints i:visible')[0]).hide();
+            $($('#hints i:visible')[0]).hide();
             hints--;
             return;
         } else {
-            if(el.hasClass('fixed')) {
+            if (el.hasClass('fixed')) {
                 return;
             }
             $("#all_words_div div").removeClass('selected')
             $('#all_words_div div[n=' + num + ']').addClass('selected');
         }
         $("#keyboard-div").css('display', 'flex');
+        showKeyboard(el);
     }
     return;
+}
+
+function showKeyboard(el) {
+    let scale = (window.visualViewport.width || window.innerWidth) / window.innerWidth;
+    const target = el;
+    const popover = $("#keyboard-div");
+    popover.css('transform', 'scale(' + scale + ')');
+
+    const targetRect = target.offset();
+    const popoverRect = popover.offset();
+    let w = popover.width();
+    let top = targetRect.top + target.height() - (1-scale)*popover.height()/2;
+    let left = targetRect.left + target.width() / 2 - w / 2;
+    if (left < -(1-scale)*w/2)
+        left = -(1-scale)*w/2;
+    if (left + w - w * (1-scale)/2 > window.innerWidth)
+        left = window.innerWidth - w + w * (1-scale)/2;
+    popover.css("top", `${top + 8}px`);
+    popover.css("left", `${left}px`);
 }
 
 function revealLetter(num, l, del, fixed) {
     let divs = $('#all_words_div div[n=' + num + ']');
     $("#all_words_div div").removeClass('selected')
     divs.addClass('selected');
-    if(fixed)
+    if (fixed)
         divs.addClass('fixed');
-    if(del) {
+    if (del) {
         divs.removeClass('l');
         divs.toArray().forEach(div => $(div).find('span')[0].innerHTML = num);
-        $('.key[l='+l+']').removeClass('success');
+        $('.key[l=' + l + ']').removeClass('success');
     } else {
         divs.addClass('l');
-        divs.toArray().forEach(div => { 
+        divs.toArray().forEach(div => {
             $(div).find('span')[0].innerHTML = l;
         });
-        $('.key[l='+l+']').addClass('success');
+        $('.key[l=' + l + ']').addClass('success');
     }
 }
 
@@ -173,11 +190,11 @@ function handleKeyClick(event) {
         revealLetter(num, l, true)
     } else {
         let l = key.data('l');
-        if(isNaN(Number(ll))) {
-            $('.key[l='+ll+']').removeClass('success');
+        if (isNaN(Number(ll))) {
+            $('.key[l=' + ll + ']').removeClass('success');
         }
         revealLetter(num, l)
-        if(solved()) {
+        if (solved()) {
             setTimeout(() => {
                 $('#all_words_div > div.full').addClass('winner2');
             }, 500)
@@ -232,7 +249,7 @@ function setup_dw() {
 function getRandomWord(len) {
     let filtered = dw.filter((word) => {
         word = cdl(word);
-        if(len)
+        if (len)
             return word.length == len;
         else
             return word.length <= letters;
