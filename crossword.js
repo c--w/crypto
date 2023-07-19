@@ -13,14 +13,14 @@ function fillBoard(words) { //instantiator object for making gameboards
         }
     }
     let word = words[0];
-    let startx = N / 2 - 2;
+    let startx = N / 2;
     let starty = N / 2;
     coords = [];
-    let coord = { x: startx, y: starty, l: word.length, all: [], xf: 1}
+    let coord = { x: startx, y: starty, l: word.length, all: [], xf: 0}
     coords.push(coord);
     for (let i = 0; i < word.length; i++) {
-        grid[starty][startx + i] = word[i];
-        coord.all.push({ x: startx + i, y: starty })
+        grid[starty+i][startx] = word[i];
+        coord.all.push({ x: startx, y: starty + i })
     }
     let minx = coord.x;
     let miny = coord.y;
@@ -32,7 +32,7 @@ function fillBoard(words) { //instantiator object for making gameboards
         if((i%5) % 2) {
             yf = 0;
         } else {
-            yf =1;
+            yf = 1;
         }
         xf = 1 - yf;
         coord = placeWord(word, xf, yf);
@@ -45,6 +45,7 @@ function fillBoard(words) { //instantiator object for making gameboards
             maxx = coord.x + coord.l * xf;
         if (coord.y + coord.l * yf > maxy) 
             maxy = coord.y + coord.l * yf;
+        console.table(coord);
     }
 
     function placeWord(word, xf, yf) {
@@ -181,5 +182,5 @@ function calculateCSS() {
     document.querySelector(':root').style.setProperty('--box-border-width', margin+'px');
     $('#all_words_div').css("grid-template-columns", "repeat(" + g_cols + ", " + width + "px)");
     $('#all_words_div').css("grid-template-rows", "repeat(" + g_rows + ", " + width + "px)");
-    $('#all_words_div').css("font-size", width / 2 + "px");
+    $('#all_words_div').css("font-size", width / 1.8 + "px");
 }
