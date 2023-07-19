@@ -1,4 +1,4 @@
-const N = 50;
+const N = 100;
 const border_light_color = 'var(--border-light-color)';
 var coords;
 var g_rows;
@@ -16,7 +16,7 @@ function fillBoard(words) { //instantiator object for making gameboards
     let startx = N / 2 - 2;
     let starty = N / 2;
     coords = [];
-    let coord = { x: startx, y: starty, l: word.length, all: [] }
+    let coord = { x: startx, y: starty, l: word.length, all: [], xf: 1}
     coords.push(coord);
     for (let i = 0; i < word.length; i++) {
         grid[starty][startx + i] = word[i];
@@ -26,10 +26,15 @@ function fillBoard(words) { //instantiator object for making gameboards
     let miny = coord.y;
     let maxx = minx + coord.l;
     let maxy = miny;
+    let xf, yf;
     for (let i = 1; i < words.length; i++) {
         word = words[i];
-        let yf = i % 2;
-        let xf = 1 - yf
+        if((i%5) % 2) {
+            yf = 0;
+        } else {
+            yf =1;
+        }
+        xf = 1 - yf;
         coord = placeWord(word, xf, yf);
         coords.push(coord);
         if (coord.x < minx)
@@ -56,10 +61,8 @@ function fillBoard(words) { //instantiator object for making gameboards
                 let xx = x + i * xf;
                 let yy = y + i * yf;
                 if (grid[yy][xx] == c) {
-                    if (coords.find((coord, ii) => {
-                        let yyf = ii % 2;
-                        let xxf = 1 - yyf;
-                        return yyf == yf && coord.all.find(c => c.x == xx && c.y == yy);
+                    if (coords.find((coord) => {
+                        return coord.xf == xf && coord.all.find(c => c.x == xx && c.y == yy);
                     })) { // never use chars of same oriented word
                         score = -1;
                         break;
@@ -75,11 +78,13 @@ function fillBoard(words) { //instantiator object for making gameboards
                 best_score = score;
                 best_coord.x = x;
                 best_coord.y = y;
+                best_coord.xf = xf;
             }
         }
         if (best_coord.x == 0 && best_coord.y == 0) {
-            best_coord.x = minx - best_coord.l * xf;
+            best_coord.x = N/2;
             best_coord.y = miny - best_coord.l * yf;
+            best_coord.xf = xf;
             console.log("Floating...")
         }
         for (let i = 0; i < word.length; i++) {
@@ -117,8 +122,8 @@ function fillBoard(words) { //instantiator object for making gameboards
     let all_divs = $($('#all_words_div div'));
     let color_step = Math.floor(360 / words.length);
     coords.forEach((c, i) => {
-        let yf = i % 2;
-        let xf = 1 - yf
+        let xf = c.xf;
+        let yf = 1-xf;
         let color = "hsl(" + color_step * i + "deg 100% 50% / 0.2)";
         c.x = c.x - minx;
         c.y = c.y - miny;
@@ -129,7 +134,7 @@ function fillBoard(words) { //instantiator object for making gameboards
             let bckg = $('<div class="bckg">');
             bckg.css("background", color);
             div.append(bckg);
-            if (i % 2) {
+            if (!xf) {
                 if (j == 0) {
                     div.addClass('top');
                     div.append('<i class="bottom">')
