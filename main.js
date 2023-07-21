@@ -13,7 +13,7 @@ var wordnum;
 var last_selected;
 var hints;
 var letter_points;
-const VERSION = "v1.5";
+const VERSION = "v1.6";
 function init() {
     $('#version').text(VERSION);
     let all_words_div = document.querySelector("#all_words_div");
@@ -67,7 +67,6 @@ function changeGame() {
     setCookie("gamemode", gamemode, 730);
     level = $("#level").val();
     wordnum = $("#wordnum").val();
-    hints = 7 - wordnum / 10;
     setup_dw();
     setCookie("level", level, 730);
     setCookie("wordnum", wordnum, 730);
@@ -75,7 +74,6 @@ function changeGame() {
     total_time = 0;
     games = 0;
     start_time = 0;
-    setupHints();
     initKeyboard();
     setBckg();
     initGame();
@@ -111,6 +109,8 @@ function initGame() {
     $('#hints i').show();
     $('.key').removeClass('success');
     all_guess_words = [];
+    hints = 7 - wordnum / 10;
+    setupHints();
     fillBoard();
     $('#all_words_div').show();
     updateStats();
