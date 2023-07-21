@@ -40,7 +40,7 @@ function placeWord(xf, yf, done, doneall) {
                     let word = dw.find(w => w.match(regex));
                     if (!word)
                         continue;
-                    if(all_guess_words.find((w)=> w.join('') == word))
+                    if (all_guess_words.find((w) => w.join('') == word))
                         continue;
                     word = cdl(word);
                     for (let i = 0; i < word.length; i++) {
@@ -62,7 +62,7 @@ function placeWord(xf, yf, done, doneall) {
                         }
                     }
                     let letter_score = word.reduce((acc, l) => acc + letter_points[l], 0);
-                    score+=letter_score;
+                    score += letter_score;
                     if (score > best_score) {
                         best_score = score;
                         best_coord.x = x;
@@ -71,7 +71,7 @@ function placeWord(xf, yf, done, doneall) {
                         best_coord.w = word;
                         best_coord.xf = xf;
                         best_coord.ls = letter_score;
-                    } 
+                    }
                 }
             }
         }
@@ -99,6 +99,8 @@ function handleWord(coord, doneall) {
     xf = 1 - yf;
     coords.push(coord);
     all_guess_words.push(coord.w);
+    $('.progress-bar').css('width', all_guess_words.length / wordnum * 100 + '%')
+    $('.progress-bar').text(all_guess_words.length + '/' + wordnum)
     if (coord.x < minx)
         minx = coord.x;
     if (coord.y < miny)
@@ -117,9 +119,11 @@ function handleWord(coord, doneall) {
         }
         xf = 1 - yf;
         setTimeout(placeWord, 0, xf, yf, handleWord, doneall);
-    }
-    else
+    } else {
+        $('.progress').hide();
+        $("#hints").css("display", "flex");
         doneall();
+    }
 }
 
 function fillBoard() { //instantiator object for making gameboards
@@ -137,7 +141,7 @@ function fillBoard() { //instantiator object for making gameboards
     }
     minx = coord.x;
     miny = coord.y;
-    maxx = minx+1;
+    maxx = minx + 1;
     maxy = miny + coord.l;
 
     let xf, yf;
@@ -223,7 +227,6 @@ function finishBoard() {
             }
         }
     })
-    $("#hints").css("display", "flex");
     calculateCSS();
 }
 

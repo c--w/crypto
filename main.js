@@ -13,7 +13,7 @@ var wordnum;
 var last_selected;
 var hints;
 var letter_points;
-const VERSION = "v1.6";
+const VERSION = "v1.7";
 function init() {
     $('#version').text(VERSION);
     let all_words_div = document.querySelector("#all_words_div");
@@ -111,6 +111,10 @@ function initGame() {
     all_guess_words = [];
     hints = 7 - wordnum / 10;
     setupHints();
+    $('#hints').hide();
+    $(".progress").show();
+    $('.progress-bar').css('width', all_guess_words.length / wordnum * 100 + '%')
+    $('.progress-bar').text(all_guess_words.length + '/' + wordnum)
     fillBoard();
     $('#all_words_div').show();
     updateStats();

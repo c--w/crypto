@@ -69,7 +69,7 @@ body {
     width: auto;
 }
 
-#hints {
+#hints, #progress {
     display: none;
     justify-content: center;
     margin-top: 2vh;
