@@ -284,6 +284,8 @@ button.key {
     touch-action: manipulation;
     position: relative;
     font-size: larger;
+    min-width: 24px;
+    border-radius: 6px;
 }
 
 .del,

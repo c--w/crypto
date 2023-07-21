@@ -156,9 +156,6 @@ function handleClick(event) {
 }
 
 function showKeyboard(el) {
-    if (iOS()) {
-        $('#version').text(window.visualViewport.width + " " + screen.width);;//return; 
-    }
     let scale = (window.visualViewport.width || screen.width) / screen.width;
     const target = el;
     const popover = $("#keyboard-div");
