@@ -62,8 +62,8 @@ function placeWord(xf, yf, done, doneall) {
                         }
                     }
                     let letter_score = word.reduce((acc, l) => acc + letter_points[l], 0);
-                    score += letter_score;
-                    if (score > best_score) {
+                    //score += letter_score;
+                    if (score > best_score || score == best_score && letter_score > best_coord.ls) {
                         best_score = score;
                         best_coord.x = x;
                         best_coord.y = y;
@@ -191,6 +191,11 @@ function finishBoard() {
         let xf = c.xf;
         let yf = 1 - xf;
         let color = "hsl(" + color_step * i + "deg 100% 50% / 0.2)";
+        let bckg_str;
+        if (yf)
+            bckg_str = "linear-gradient(45deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 50%, " + color + " 50%, " + color + " 100%)";
+        else
+            bckg_str = "linear-gradient(45deg, " + color + " 0%, " + color + " 50%,  rgba(0,0,0,0) 50%, rgba(0,0,0,0) 100%)";
         let x = c.x - minx;
         let y = c.y - miny;
         for (let j = 0; j < c.l; j++) {
@@ -198,7 +203,7 @@ function finishBoard() {
             let yy = y + j * yf;
             let div = $(all_divs[yy * g_cols + xx])
             let bckg = $('<div class="bckg">');
-            bckg.css("background", color);
+            bckg.css("background", bckg_str);
             div.append(bckg);
             if (!xf) {
                 if (j == 0) {

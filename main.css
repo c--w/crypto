@@ -160,7 +160,7 @@ body {
     border-bottom-color: var(--border-light-color);
 }
 #all_words_div div i.bottom {
-    width: 1px;
+    width: var(--main-box-margin);
     height: calc(2*var(--main-box-margin));
     top: calc(100% + 1*var(--main-box-margin));
     left: 50%;
@@ -170,7 +170,7 @@ body {
     border-top-color: var(--border-light-color);
 }
 #all_words_div div i.top {
-    width: 1px;
+    width: var(--main-box-margin);
     height: calc(2*var(--main-box-margin));
     top: calc(0px - 3*var(--main-box-margin));
     left: 50%;
@@ -184,7 +184,7 @@ body {
     border-right-color: var(--border-light-color);
 }
 #all_words_div div i.right {
-    height: 1px;
+    height: var(--main-box-margin);
     width: calc(2*var(--main-box-margin));
     left: calc(100% + 1*var(--main-box-margin));
     top: 50%;
@@ -194,7 +194,7 @@ body {
     border-left-color: var(--border-light-color);
 }
 #all_words_div div i.left {
-    height: 1px;
+    height: var(--main-box-margin);
     width: calc(2*var(--main-box-margin));
     left: calc(0px - 3*var(--main-box-margin));
     top: 50%;
