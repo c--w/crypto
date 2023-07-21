@@ -1,6 +1,5 @@
 onload = (event) => init();
 var all_guess_words;
-var all_guess_words_arr;
 var last_time = 0;
 var total_time = 0;
 var games = 0;
@@ -10,10 +9,11 @@ var startseed;
 var letters;
 var gamemode;
 var level;
+var wordnum;
 var last_selected;
 var hints;
-const NUM_WORDS = 30;
-const VERSION = "v1.4";
+var letter_points;
+const VERSION = "v1.5";
 function init() {
     $('#version').text(VERSION);
     let all_words_div = document.querySelector("#all_words_div");
@@ -30,21 +30,28 @@ function init() {
     if (!gamemode) {// try cookie
         gamemode = Number(getCookie("gamemode"));
         level = Number(getCookie("level"));
+        wordnum = Number(getCookie("wordnum"));
     }
     if (isNaN(gamemode)) { // try select
         gamemode = $("#gamemode").val();
         level = $("#level").val();
+        wordnum = $("#wordnum").val();
     }
-    if (gamemode < 4)
-        gamemode = 5;
-    if (level < 1)
+    if (gamemode < 4 || !gamemode)
+        gamemode = 7;
+    if (level < 1 || !level)
         level = 1;
+    if (wordnum < 20 || !wordnum)
+        wordnum = 30;
     $("#gamemode").val(gamemode);
     $("#level").val(level);
+    $("#wordnum").val(wordnum);
     setCookie("gamemode", gamemode, 730);
     setCookie("level", level, 730);
+    setCookie("wordnum", wordnum, 730);
     $("#gamemode").on("change", changeGame);
     $("#level").on("change", changeGame);
+    $("#wordnum").on("change", changeGame);
     changeGame();
     window.onresize = function () {
         calculateCSS();
@@ -59,15 +66,27 @@ function changeGame() {
         letters = gamemode;
     setCookie("gamemode", gamemode, 730);
     level = $("#level").val();
+    wordnum = $("#wordnum").val();
+    hints = 7 - wordnum / 10;
     setup_dw();
     setCookie("level", level, 730);
+    setCookie("wordnum", wordnum, 730);
     last_time = 0;
     total_time = 0;
     games = 0;
     start_time = 0;
+    setupHints();
     initKeyboard();
     setBckg();
     initGame();
+}
+
+function setupHints() {
+    let hints_div = $('#hints');
+    hints_div.empty();
+    for (let i = 0; i < hints; i++) {
+        hints_div.append($('<i class="bi bi-lightbulb-fill"></i>'))
+    }
 }
 
 function initKeyboard() {
@@ -84,28 +103,18 @@ function initKeyboard() {
 function initGame() {
     startseed = seed;
     let seed_url;
-    seed_url = gamemode + "-" + level + "-" + startseed;
+    seed_url = gamemode + "-" + level + "-" + wordnum + "-" + startseed;
 
     var url = window.location.origin + window.location.pathname + "#" + seed_url;
     $("#share-url").val(url);
     $("#seed").attr('title', startseed);
-    hints = 5;
     $('#hints i').show();
     $('.key').removeClass('success');
-    findAllGuessWords();
-    fillBoard(all_guess_words_arr);
+    all_guess_words = [];
+    fillBoard();
     $('#all_words_div').show();
     updateStats();
     start_time = Date.now();
-}
-
-function findAllGuessWords() {
-    all_guess_words = new Set();
-    while (all_guess_words.size < NUM_WORDS) {
-        all_guess_words.add(getRandomWord());
-    }
-    all_guess_words_arr = Array.from(all_guess_words);
-    console.table(all_guess_words_arr);
 }
 
 var click_time = 0;
@@ -143,24 +152,24 @@ function handleClick(event) {
 }
 
 function showKeyboard(el) {
-    if(iOS()) {
-        $('#version').text(window.visualViewport.width+" "+screen.width);;//return; 
+    if (iOS()) {
+        $('#version').text(window.visualViewport.width + " " + screen.width);;//return; 
     }
     let scale = (window.visualViewport.width || screen.width) / screen.width;
     const target = el;
     const popover = $("#keyboard-div");
     popover.css('transform', 'scale(' + scale + ')');
-    popover.css('-webkit-transform', 'scale(' + scale + ','+ scale + ')');
+    popover.css('-webkit-transform', 'scale(' + scale + ',' + scale + ')');
 
     const targetRect = target.offset();
     const popoverRect = popover.offset();
     let w = popover.width();
-    let top = targetRect.top + target.height() - (1-scale)*popover.height()/2;
+    let top = targetRect.top + target.height() - (1 - scale) * popover.height() / 2;
     let left = targetRect.left + target.width() / 2 - w / 2;
-    if (left < -(1-scale)*w/2)
-        left = -(1-scale)*w/2;
-    if (left + w - w * (1-scale)/2 > screen.width)
-        left = screen.width - w + w * (1-scale)/2;
+    if (left < -(1 - scale) * w / 2)
+        left = -(1 - scale) * w / 2;
+    if (left + w - w * (1 - scale) / 2 > screen.width)
+        left = screen.width - w + w * (1 - scale) / 2;
     popover.css("top", `${top + 8}px`);
     popover.css("left", `${left}px`);
 }
@@ -235,7 +244,8 @@ function initSeed() {
         let tmp = window.location.hash.substring(1).split("-");
         gamemode = Number(tmp[0])
         level = Number(tmp[1])
-        seed = Number(tmp[2]);
+        wordnum = Number(tmp[2])
+        seed = Number(tmp[3]);
         if (!isNaN(seed))
             return;
     }
@@ -251,6 +261,19 @@ function setup_dw() {
     else if (level == 2) dw = hrdict2;
     else if (level == 3) dw = hrdict3;
     else if (level == 4) dw = endict;
+    letter_points = {};
+    let max = 0;
+    dw.forEach(w => {
+        let ww = cdl(w);
+        ww.forEach(l => {
+            letter_points[l] = (letter_points[l] || 0) + 1;
+            if (letter_points[l] > max)
+                max = letter_points[l];
+        })
+    })
+    Object.keys(letter_points).forEach(key => {
+        letter_points[key] = (1 - letter_points[key] / max)/4;
+    });
 }
 
 
@@ -286,7 +309,7 @@ function updateStats() {
         return;
     let avg = Math.round(total_time / games);
     $("#avg").text(avg);
-    let key = 'words' + games + '-' + gamemode + '-' + level;
+    let key = 'words' + games + '-' + gamemode + '-' + level + '-' + wordnum;
     let best = localStorage.getItem(key);
     if (best) {
         best = Number(best);
