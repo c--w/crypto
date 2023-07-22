@@ -33,45 +33,44 @@ function placeWord(xf, yf, done, doneall) {
                     else
                         pattern += '.';
                 }
-                for (let j = 7; j > 3; j--) {
-                    let score = 0;
-                    let regex_str = '^' + pattern.substring(0, j) + '$';;
-                    let regex = new RegExp(regex_str, 'g');;
-                    let word = dw.find(w => w.match(regex));
-                    if (!word)
-                        continue;
-                    if (all_guess_words.find((w) => w.join('') == word))
-                        continue;
-                    word = cdl(word);
-                    for (let i = 0; i < word.length; i++) {
-                        let c = word[i];
-                        let xx = x + i * xf;
-                        let yy = y + i * yf;
-                        if (grid[yy][xx] == c) {
-                            if (coords.find((coord) => {
-                                return coord.xf == xf && coord.all.find(c => c.x == xx && c.y == yy);
-                            })) { // never use chars of same oriented word
-                                score = -1;
-                                break;
-                            } else {
-                                score++;
-                            }
-                        } else if (grid[y + i * yf][x + i * xf] != '') { // clash with another word
+                let j = Math.floor(rand() * 4) + 4
+                let score = 0;
+                let regex_str = '^' + pattern.substring(0, j) + '$';;
+                let regex = new RegExp(regex_str, 'g');;
+                let word = dw.find(w => w.match(regex));
+                if (!word)
+                    continue;
+                if (all_guess_words.find((w) => w.join('') == word))
+                    continue;
+                word = cdl(word);
+                for (let i = 0; i < word.length; i++) {
+                    let c = word[i];
+                    let xx = x + i * xf;
+                    let yy = y + i * yf;
+                    if (grid[yy][xx] == c) {
+                        if (coords.find((coord) => {
+                            return coord.xf == xf && coord.all.find(c => c.x == xx && c.y == yy);
+                        })) { // never use chars of same oriented word
                             score = -1;
                             break;
+                        } else {
+                            score++;
                         }
+                    } else if (grid[y + i * yf][x + i * xf] != '') { // clash with another word
+                        score = -1;
+                        break;
                     }
-                    let letter_score = word.reduce((acc, l) => acc + letter_points[l], 0);
-                    //score += letter_score;
-                    if (score > best_score || score == best_score && letter_score > best_coord.ls) {
-                        best_score = score;
-                        best_coord.x = x;
-                        best_coord.y = y;
-                        best_coord.l = word.length;
-                        best_coord.w = word;
-                        best_coord.xf = xf;
-                        best_coord.ls = letter_score;
-                    }
+                }
+                let letter_score = word.reduce((acc, l) => acc + letter_points[l], 0);
+                //score += letter_score;
+                if (score > best_score || score == best_score && letter_score > best_coord.ls) {
+                    best_score = score;
+                    best_coord.x = x;
+                    best_coord.y = y;
+                    best_coord.l = word.length;
+                    best_coord.w = word;
+                    best_coord.xf = xf;
+                    best_coord.ls = letter_score;
                 }
             }
         }
