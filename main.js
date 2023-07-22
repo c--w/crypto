@@ -13,7 +13,7 @@ var wordnum;
 var last_selected;
 var hints;
 var letter_points;
-const VERSION = "v2.1";
+const VERSION = "v2.2";
 function init() {
     $('#version').text(VERSION);
     let all_words_div = document.querySelector("#all_words_div");
@@ -230,7 +230,7 @@ function solved() {
     })
 }
 function randomsort(a, b) {
-    return Math.random() * 2 - 1;
+    return rand() * 2 - 1;
 }
 
 function rand() {
