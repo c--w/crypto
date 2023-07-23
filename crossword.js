@@ -208,9 +208,11 @@ function finishBoard() {
                 if (j == 0) {
                     div.addClass('top');
                     div.append('<i class="bottom">')
+                    div.append('<i class="topt">')
                 } else if (j == c.l - 1) {
                     div.addClass('bottom')
                     div.append('<i class="top">')
+                    div.append('<i class="bottomb">')
                 } else {
                     div.addClass('vertical')
                     div.append('<i class="bottom">')
@@ -220,9 +222,11 @@ function finishBoard() {
                 if (j == 0) {
                     div.addClass('left')
                     div.append('<i class="right">')
+                    div.append('<i class="leftl">')
                 } else if (j == c.l - 1) {
                     div.append('<i class="left">')
                     div.addClass('right')
+                    div.append('<i class="rightr">')
                 } else {
                     div.addClass('horizontal')
                     div.append('<i class="right">')

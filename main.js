@@ -13,7 +13,7 @@ var wordnum;
 var last_selected;
 var hints;
 var letter_points;
-const VERSION = "v2.5";
+const VERSION = "v2.6";
 function init() {
     $('#version').text(VERSION);
     let all_words_div = document.querySelector("#all_words_div");
