@@ -241,7 +241,7 @@ function calculateCSS() {
     let width = Math.floor(innerWidth / (g_cols));
     if (width > 80)
         width = 80;
-    let margin = Math.ceil(width / 16);
+    let margin = Math.ceil(width / 24);
     let margin2 = Math.ceil(margin / 1.5);
     //width = width - 2*margin;
     document.querySelector(':root').style.setProperty('--main-box-margin', margin + 'px');
