@@ -13,7 +13,7 @@ var wordnum;
 var last_selected;
 var hints;
 var letter_points;
-const VERSION = "v2.2";
+const VERSION = "v2.3";
 function init() {
     $('#version').text(VERSION);
     let all_words_div = document.querySelector("#all_words_div");
@@ -115,7 +115,7 @@ function initGame() {
     $(".progress").show();
     $('.progress-bar').css('width', all_guess_words.length / wordnum * 100 + '%')
     $('.progress-bar').text(all_guess_words.length + '/' + wordnum)
-    dw.sort(randomsort);
+    shuffle(dw);
     fillBoard();
     $('#all_words_div').show();
     updateStats();
@@ -229,8 +229,14 @@ function solved() {
         return span.innerText != $(span).parent().data('l');
     })
 }
-function randomsort(a, b) {
-    return rand() * 2 - 1;
+function shuffle(a) {
+    for (let i = 0; i < a.length; i++) {
+        let i1 = Math.floor(a.length * rand());
+        let i2 = Math.floor(a.length * rand());
+        let tmp = a[i1];
+        a[i1] = a[i2];
+        a[i2] = tmp;
+    }
 }
 
 function rand() {
@@ -274,8 +280,8 @@ function setup_dw() {
         })
     })
     Object.keys(letter_points).forEach(key => {
-        let v =  1 - letter_points[key] / max;
-        v = Math.round(v*10)/10;
+        let v = 1 - letter_points[key] / max;
+        v = Math.round(v * 10) / 10;
         letter_points[key] = v;
     });
 }

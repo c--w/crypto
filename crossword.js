@@ -61,7 +61,7 @@ function placeWord(xf, yf, done, doneall) {
                         break;
                     }
                 }
-                let letter_score = word.reduce((acc, l) => acc + letter_points[l], 0);
+                let letter_score = word.reduce((acc, l) => acc + letter_points[l], 0)/word.length;
                 //score += letter_score;
                 if (score > best_score || score == best_score && letter_score > best_coord.ls) {
                     best_score = score;
