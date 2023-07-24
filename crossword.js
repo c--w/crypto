@@ -1,14 +1,11 @@
 const N = 100;
-const border_light_color = 'var(--border-light-color)';
 var coords;
 var g_rows;
 var g_cols;
-var all_letters_arr;
 
 var grid, grid2;
 var minx, miny, maxx, maxy;
 
-var letter_points;
 function initGrid() {
     grid = new Array(N); //create 2 dimensional array for letter grid
     for (var i = 0; i < N; i++) {
@@ -61,16 +58,13 @@ function placeWord(xf, yf, done, doneall) {
                         break;
                     }
                 }
-                let letter_score = word.reduce((acc, l) => acc + letter_points[l], 0)/word.length;
-                //score += letter_score;
-                if (score > best_score || score == best_score && letter_score > best_coord.ls) {
+                if (score > best_score) {
                     best_score = score;
                     best_coord.x = x;
                     best_coord.y = y;
                     best_coord.l = word.length;
                     best_coord.w = word;
                     best_coord.xf = xf;
-                    best_coord.ls = letter_score;
                 }
             }
         }
@@ -132,7 +126,7 @@ function fillBoard() { //instantiator object for making gameboards
     let startx = N / 2;
     let starty = N / 2;
     coords = [];
-    let coord = { x: startx, y: starty, l: word.length, all: [], xf: 0, w: word, ls: word.reduce((acc, l) => acc + letter_points[l], 0) }
+    let coord = { x: startx, y: starty, l: word.length, all: [], xf: 0, w: word}
     coords.push(coord);
     for (let i = 0; i < word.length; i++) {
         grid[starty + i][startx] = word[i];
@@ -179,7 +173,6 @@ function initGrid2() {
             $('#all_words_div').append(div);
         }
     }
-    //console.table(grid2);
 }
 
 function finishBoard() {

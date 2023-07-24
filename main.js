@@ -12,8 +12,7 @@ var level;
 var wordnum;
 var last_selected;
 var hints;
-var letter_points;
-const VERSION = "v2.6";
+const VERSION = "v2.7";
 function init() {
     $('#version').text(VERSION);
     let all_words_div = document.querySelector("#all_words_div");
@@ -269,21 +268,6 @@ function setup_dw() {
     else if (level == 2) dw = hrdict2;
     else if (level == 3) dw = hrdict3;
     else if (level == 4) dw = endict;
-    letter_points = {};
-    let max = 0;
-    dw.forEach(w => {
-        let ww = cdl(w);
-        ww.forEach(l => {
-            letter_points[l] = (letter_points[l] || 0) + 1;
-            if (letter_points[l] > max)
-                max = letter_points[l];
-        })
-    })
-    Object.keys(letter_points).forEach(key => {
-        let v = 1 - letter_points[key] / max;
-        v = Math.round(v * 10) / 10;
-        letter_points[key] = v;
-    });
 }
 
 
