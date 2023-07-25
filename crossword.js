@@ -20,8 +20,18 @@ function placeWord(xf, yf, done, doneall) {
     let best_score = -1;
     let best_coord = { all: [] };
     while (best_score == -1) {
-        for (let y = miny - letters; y < maxy + letters; y++) {
-            for (let x = minx - letters; x < maxx + letters; x++) {
+        let sy = miny - letters;
+        let ey = maxy + letters;
+        let ly = ey - sy;
+        let hy = sy + Math.floor(ly / 2);
+        for (let yi = 0; yi < ly; yi++) {
+            let y = sy + (hy + yi) % ly;
+            let sx = minx - letters;
+            let ex = maxx + letters;
+            let lx = ex - sx;
+            let hx = sx + Math.floor(lx / 2);
+            for (let xi = 0; xi < lx; xi++) {
+                let x = sx + (hx + xi) % lx;
                 let pattern = '';
                 for (let k = 0; k < letters; k++) {
                     let l = grid[y + k * yf][x + k * xf];
