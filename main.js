@@ -12,7 +12,7 @@ var level;
 var wordnum;
 var last_selected;
 var hints;
-const VERSION = "v2.7";
+const VERSION = "v2.8";
 function init() {
     $('#version').text(VERSION);
     let all_words_div = document.querySelector("#all_words_div");

@@ -20,17 +20,17 @@ function placeWord(xf, yf, done, doneall) {
     let best_score = -1;
     let best_coord = { all: [] };
     while (best_score == -1) {
-        for (let y = miny - 6; y < maxy + 7; y++) {
-            for (let x = minx - 6; x < maxx + 7; x++) {
+        for (let y = miny - letters; y < maxy + letters; y++) {
+            for (let x = minx - letters; x < maxx + letters; x++) {
                 let pattern = '';
-                for (let k = 0; k < 7; k++) {
+                for (let k = 0; k < letters; k++) {
                     let l = grid[y + k * yf][x + k * xf];
                     if (l)
                         pattern += l;
                     else
                         pattern += '.';
                 }
-                let j = Math.floor(rand() * 4) + 4
+                let j = 4 + Math.floor(rand() * (letters - 3)); 
                 let score = 0;
                 let regex_str = '^' + pattern.substring(0, j) + '$';;
                 let regex = new RegExp(regex_str, 'g');;
@@ -70,7 +70,8 @@ function placeWord(xf, yf, done, doneall) {
         }
     }
     if (best_score == 0) {
-        best_coord.x += 6 * (1 - xf);
+        best_coord.x += letters * (1 - xf);
+        console.log("Floating..")
     }
     for (let i = 0; i < best_coord.w.length; i++) {
         c = best_coord.w[i];
@@ -121,7 +122,7 @@ function handleWord(coord, doneall) {
 
 function fillBoard() { //instantiator object for making gameboards
     initGrid();
-    let word = getRandomWord(7);
+    let word = getRandomWord(letters);
     all_guess_words.push(word);
     let startx = N / 2;
     let starty = N / 2;
