@@ -26,28 +26,9 @@ function init() {
     $(".key").on("click", handleKeyClick);
 
     initSeed();
-    if (!gamemode) {// try cookie
-        gamemode = Number(getCookie("gamemode"));
-        level = Number(getCookie("level"));
-        wordnum = Number(getCookie("wordnum"));
-    }
-    if (isNaN(gamemode)) { // try select
-        gamemode = $("#gamemode").val();
-        level = $("#level").val();
-        wordnum = $("#wordnum").val();
-    }
-    if (gamemode < 4 || !gamemode)
-        gamemode = 7;
-    if (level < 1 || !level)
-        level = 1;
-    if (wordnum < 20 || !wordnum)
-        wordnum = 30;
-    $("#gamemode").val(gamemode);
-    $("#level").val(level);
-    $("#wordnum").val(wordnum);
-    setCookie("gamemode", gamemode, 730);
-    setCookie("level", level, 730);
-    setCookie("wordnum", wordnum, 730);
+    resolve('gamemode')
+    resolve('level')
+    resolve('wordnum')
     $("#gamemode").on("change", changeGame);
     $("#level").on("change", changeGame);
     $("#wordnum").on("change", changeGame);
@@ -65,10 +46,10 @@ function changeGame() {
         letters = gamemode;
     setCookie("gamemode", gamemode, 730);
     level = $("#level").val();
-    wordnum = $("#wordnum").val();
-    setup_dw();
     setCookie("level", level, 730);
+    wordnum = $("#wordnum").val();
     setCookie("wordnum", wordnum, 730);
+    setup_dw();
     last_time = 0;
     total_time = 0;
     games = 0;
@@ -316,4 +297,28 @@ function updateStats() {
     localStorage.setItem(key, best);
     $("#best-games").text(games);
     $("#best").text(best);
+}
+
+function resolve(prop, num) {
+    let value = window[prop];
+    if (typeof value == 'undefined') {
+        value = getCookie(prop);
+        if (!value) {
+            value = $('#' + prop).val();
+            window[prop] = value;
+            return;
+        }
+    }
+    let options = $('#' + prop + ' option');
+    let values = $.map(options, function (option) {
+        return option.value;
+    });
+    if(values.indexOf(value) == -1) {
+        value = values[0];        
+    }
+    if(num)
+        value = Number(value);
+    window[prop] = value;
+    $('#' + prop).val(value);
+    setCookie(prop, value, 730);
 }
