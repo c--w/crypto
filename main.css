@@ -67,6 +67,7 @@ body {
 #menu {
     align-self: center;
     width: auto;
+    z-index: 1;
 }
 
 #hints, #progress {
@@ -116,7 +117,7 @@ body {
     grid-column-gap: 0px;
     grid-row-gap: 0px;    
     padding-bottom: 2vh;
-    z-index: 1;
+    z-index: 2;
 }
 #all_words_div div {
     margin:0;
@@ -221,6 +222,15 @@ body {
     right:0;
     bottom:0;
     z-index: -1;
+}
+
+#continue {
+    display: none;
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    text-align: center;
+    z-index: 10;
 }
 
 #stats {

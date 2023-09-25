@@ -12,7 +12,7 @@ var level;
 var wordnum;
 var last_selected;
 var hints;
-const VERSION = "v3.0";
+const VERSION = "v3.1";
 function init() {
     $('#version').text(VERSION);
     let all_words_div = document.querySelector("#all_words_div");
@@ -197,10 +197,12 @@ function handleKeyClick(event) {
             setTimeout(() => {
                 $('#all_words_div > div.full').addClass('winner2');
             }, 500)
+
+            startFireworks();
             games++;
             last_time = Math.round((Date.now() - start_time) / 1000);
             total_time += last_time;
-            setTimeout(initGame, 3000);
+            $('#continue').show();
         }
     }
 }
