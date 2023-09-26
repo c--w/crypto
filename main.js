@@ -12,7 +12,7 @@ var level;
 var wordnum;
 var last_selected;
 var hints;
-const VERSION = "v3.1";
+const VERSION = "v3.5";
 function init() {
     $('#version').text(VERSION);
     let all_words_div = document.querySelector("#all_words_div");
@@ -40,15 +40,19 @@ function init() {
 
 function changeGame() {
     gamemode = Number($("#gamemode").val());
-    if (gamemode > 7)
-        letters = gamemode - 3;
-    else
-        letters = gamemode;
+    letters = gamemode;
     setCookie("gamemode", gamemode, 730);
     level = $("#level").val();
     setCookie("level", level, 730);
     wordnum = $("#wordnum").val();
     setCookie("wordnum", wordnum, 730);
+    if(gamemode == 8) {
+        $('#level').hide();
+        $('#wordnum').hide();
+    } else {
+        $('#level').show();
+        $('#wordnum').show();
+    }
     setup_dw();
     last_time = 0;
     total_time = 0;
@@ -68,7 +72,7 @@ function setupHints() {
 }
 
 function initKeyboard() {
-    if (level == 4) {
+    if (level == 4 || gamemode == 8) {
         ["Š", "Đ", "Č", "Ć", "Ž", "NJ", "DŽ", "LJ"].forEach(l => $('[l="' + l + '"]').hide());
         ["Q", "W", "X", 'Y'].forEach(l => $('[l="' + l + '"]').show());
     } else {
@@ -79,6 +83,8 @@ function initKeyboard() {
 }
 
 function initGame() {
+    stopFireworks();
+    $('#continue').hide();
     startseed = seed;
     let seed_url;
     seed_url = gamemode + "-" + level + "-" + wordnum + "-" + startseed;
@@ -89,15 +95,20 @@ function initGame() {
     $('#hints i').show();
     $('.key').removeClass('success');
     all_guess_words = [];
-    hints = 7 - wordnum / 10;
-    setupHints();
     $('#hints').hide();
     $(".progress").show();
     $('.progress-bar').css('width', all_guess_words.length / wordnum * 100 + '%')
     $('.progress-bar').text(all_guess_words.length + '/' + wordnum)
     shuffle(dw);
-    fillBoard();
+    if(gamemode == 8) {
+        hints = 4;
+        fillBoardQuotes();
+    } else {
+        hints = 7 - wordnum / 10;
+        fillBoard();
+    }
     $('#all_words_div').show();
+    setupHints();
     updateStats();
     start_time = Date.now();
 }
@@ -108,9 +119,9 @@ function handleClick(event) {
         return false;
     click_time = Date.now();
     let el = $(event.target);
-    if (el.hasClass('full') || el.parent().hasClass('full')) {
-        if (!el.hasClass('full'))
-            el = el.parent();
+    if (!el.hasClass('full'))
+        el = el.parent();
+    if (el.hasClass('clickable')) {
         effect(el);
         let num = el.data('n');
         let l = el.data('l');

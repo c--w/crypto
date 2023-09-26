@@ -5,6 +5,7 @@ var g_cols;
 
 var grid, grid2;
 var minx, miny, maxx, maxy;
+var total_quotes = 1529;
 
 function initGrid() {
     grid = new Array(N); //create 2 dimensional array for letter grid
@@ -127,6 +128,76 @@ function handleWord(coord, doneall) {
         $('.progress').hide();
         $("#hints").css("display", "flex");
         doneall();
+    }
+}
+
+function initGridQuotes() {
+    grid = new Array(g_rows); //create 2 dimensional array for letter grid
+    for (var i = 0; i < g_rows; i++) {
+        grid[i] = new Array(g_cols);
+        for (var j = 0; j < g_cols; j++) {
+            grid[i][j] = '';
+        }
+    }
+}
+function fillBoardQuotes() {
+    $('.progress').hide();
+    $("#hints").css("display", "flex");
+    let quote = quotes[Math.floor(rand() * quotes.length)];
+    g_cols = Math.floor(screen.width/40);
+    if (g_cols < 15)
+        g_cols = 15;
+    g_rows = Math.ceil(quote.text.length/g_cols) + Math.ceil(quote.author.length/g_cols)+1;
+    initGridQuotes();
+    let last;
+    quote.text.toUpperCase().split('').forEach((c, i) => {
+        let x = i % g_cols;
+        let y = Math.floor(i/g_cols)
+        grid[y][x] = c;
+        last = y;
+    })
+    last+=2;
+    quote.author.toUpperCase().split('').forEach((c, i) => {
+        let x = i % g_cols;
+        let y = last + Math.floor(i/g_cols)
+        grid[y][x] = c;
+    })
+    initGrid2Quotes();
+    calculateCSS();
+}
+
+function initGrid2Quotes() {
+    grid2 = new Array(g_rows);
+    $('#all_words_div').empty();
+    let all_letters = new Set();
+    for (var i = 0; i < g_rows; i++) {
+        grid2[i] = new Array(g_cols);
+        for (var j = 0; j < g_cols; j++) {
+            let l = grid[i][j].trim();
+            grid2[i][j] = l;
+            let div = $('<div>');
+            if (l) {
+                div.addClass('full');
+                div.data('l', l);
+                if(l.toUpperCase() != l.toLowerCase()) {
+                    div.addClass('clickable');
+                    all_letters.add(l);
+                    let n = Array.from(all_letters).indexOf(l);
+                    div.html('<span>' + n + '</span>');
+                    div.data('n', n);
+                    div.attr('n', n);
+                    div.attr('l', l);
+                } else {
+                    div.html('<span>' + l + '</span>');
+                    div.addClass('l');
+                }
+                let bckg = $('<div class="bckg">');
+                bckg.css("background", "#ddd");
+                bckg.css("margin", "1px");
+                div.append(bckg);
+            }
+            $('#all_words_div').append(div);
+        }
     }
 }
 
