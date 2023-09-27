@@ -6136,10 +6136,6 @@ var quotes = [
   "author": "The Buddha"
  },
  {
-  "text": "If writers wrote as carelessly as some people talk, then adhasdh asdglaseuyt[bn[ pasdlgkhasdfasdf.",
-  "author": "Lemony Snicket, Horseradish: Bitter Truths You Can't Avoid"
- },
- {
   "author": "Michael Jordan",
   "text": "If you accept the expectations of others, especially negative ones, then you never will change the outcome."
  },

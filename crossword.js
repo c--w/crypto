@@ -7,11 +7,11 @@ var grid, grid2;
 var minx, miny, maxx, maxy;
 var total_quotes = 1529;
 
-function initGrid() {
-    grid = new Array(N); //create 2 dimensional array for letter grid
-    for (var i = 0; i < N; i++) {
-        grid[i] = new Array(N);
-        for (var j = 0; j < N; j++) {
+function initGrid(rows, cols) {
+    grid = new Array(rows); //create 2 dimensional array for letter grid
+    for (var i = 0; i < rows; i++) {
+        grid[i] = new Array(cols);
+        for (var j = 0; j < cols; j++) {
             grid[i][j] = '';
         }
     }
@@ -41,7 +41,7 @@ function placeWord(xf, yf, done, doneall) {
                     else
                         pattern += '.';
                 }
-                let j = 4 + Math.floor(rand() * (letters - 3)); 
+                let j = 4 + Math.floor(rand() * (letters - 3));
                 let score = 0;
                 let regex_str = '^' + pattern.substring(0, j) + '$';;
                 let regex = new RegExp(regex_str, 'g');;
@@ -92,7 +92,6 @@ function placeWord(xf, yf, done, doneall) {
     done(best_coord, doneall);
 }
 
-
 function handleWord(coord, doneall) {
     let xf, yf;
     let i = all_guess_words.length;
@@ -131,84 +130,74 @@ function handleWord(coord, doneall) {
     }
 }
 
-function initGridQuotes() {
-    grid = new Array(g_rows); //create 2 dimensional array for letter grid
-    for (var i = 0; i < g_rows; i++) {
-        grid[i] = new Array(g_cols);
-        for (var j = 0; j < g_cols; j++) {
-            grid[i][j] = '';
-        }
-    }
-}
 function fillBoardQuotes() {
     $('.progress').hide();
     $("#hints").css("display", "flex");
+    $('#all_words_div').empty();
     let quote = quotes[Math.floor(rand() * quotes.length)];
-    g_cols = Math.floor(screen.width/40);
-    if (g_cols < 15)
-        g_cols = 15;
-    g_rows = Math.ceil(quote.text.length/g_cols) + Math.ceil(quote.author.length/g_cols)+1;
-    initGridQuotes();
-    let last;
+    g_cols = Math.floor(screen.width / 40);
+    if (g_cols < 12)
+        g_cols = 12;
+    g_rows = Math.ceil(quote.text.length / g_cols) + Math.ceil(quote.author.length / g_cols) + 1;
+    initGrid(g_rows, g_cols);
+    let all_letters = new Set();
+    let last_y, last_x;
     quote.text.toUpperCase().split('').forEach((c, i) => {
         let x = i % g_cols;
-        let y = Math.floor(i/g_cols)
-        grid[y][x] = c;
-        last = y;
+        let y = Math.floor(i / g_cols)
+        addCell(grid, y, x, c.trim(), all_letters);
+        last_y = y;
+        last_x = x;
     })
-    last+=2;
+    for (let i = last_x + 1; i < g_cols; i++) {
+        addCell(grid, last_y, i, '', all_letters);
+    }
+    for (let i = 0; i < g_cols; i++) {
+        addCell(grid, last_y + 1, i, '', all_letters);
+    }
+    last_y += 2;
     quote.author.toUpperCase().split('').forEach((c, i) => {
         let x = i % g_cols;
-        let y = last + Math.floor(i/g_cols)
-        grid[y][x] = c;
+        let y = last_y + Math.floor(i / g_cols)
+        addCell(grid, y, x, c.trim(), all_letters);
     })
-    initGrid2Quotes();
     calculateCSS();
 }
 
-function initGrid2Quotes() {
-    grid2 = new Array(g_rows);
-    $('#all_words_div').empty();
-    let all_letters = new Set();
-    for (var i = 0; i < g_rows; i++) {
-        grid2[i] = new Array(g_cols);
-        for (var j = 0; j < g_cols; j++) {
-            let l = grid[i][j].trim();
-            grid2[i][j] = l;
-            let div = $('<div>');
-            if (l) {
-                div.addClass('full');
-                div.data('l', l);
-                if(l.toUpperCase() != l.toLowerCase()) {
-                    div.addClass('clickable');
-                    all_letters.add(l);
-                    let n = Array.from(all_letters).indexOf(l);
-                    div.html('<span>' + n + '</span>');
-                    div.data('n', n);
-                    div.attr('n', n);
-                    div.attr('l', l);
-                } else {
-                    div.html('<span>' + l + '</span>');
-                    div.addClass('l');
-                }
-                let bckg = $('<div class="bckg">');
-                bckg.css("background", "#ddd");
-                bckg.css("margin", "1px");
-                div.append(bckg);
-            }
-            $('#all_words_div').append(div);
+function addCell(g, i, j, l, all_letters) {
+    g[i][j] = l;
+    let div = $('<div>');
+    if (l) {
+        div.addClass('full');
+        div.data('l', l);
+        if (l.toUpperCase() != l.toLowerCase()) {
+            div.addClass('clickable');
+            all_letters.add(l);
+            let n = Array.from(all_letters).indexOf(l);
+            div.html('<span>' + n + '</span>');
+            div.data('n', n);
+            div.attr('n', n);
+            div.attr('l', l);
+        } else {
+            div.html('<span>' + l + '</span>');
+            div.addClass('l');
         }
+        let bckg = $('<div class="bckg">');
+        bckg.css("background", "#ffd");
+        bckg.css("margin", "1px");
+        div.append(bckg);
     }
+    $('#all_words_div').append(div);
 }
 
 function fillBoard() { //instantiator object for making gameboards
-    initGrid();
+    initGrid(N, N);
     let word = getRandomWord(letters);
     all_guess_words.push(word);
     let startx = N / 2;
     let starty = N / 2;
     coords = [];
-    let coord = { x: startx, y: starty, l: word.length, all: [], xf: 0, w: word}
+    let coord = { x: startx, y: starty, l: word.length, all: [], xf: 0, w: word }
     coords.push(coord);
     for (let i = 0; i < word.length; i++) {
         grid[starty + i][startx] = word[i];
@@ -264,7 +253,7 @@ function finishBoard() {
     coords.forEach((c, i) => {
         let xf = c.xf;
         let yf = 1 - xf;
-        let color = "hsl(" + color_step * i + "deg 100% 50% / 0.2)";
+        let color = "hsl(" + color_step * i + "deg 100% 90% / 0.9)";
         let bckg_str;
         if (yf)
             bckg_str = "linear-gradient(45deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 50%, " + color + " 50%, " + color + " 100%)";
@@ -314,10 +303,10 @@ function finishBoard() {
 }
 
 function calculateCSS() {
-    let innerWidth = screen.width;
+    let innerWidth = screen.width-4;
     if (screen.width < screen.height)
         ;//innerWidth *= screen.height/screen.width;
-    let width = Math.floor(innerWidth / (g_cols));
+    let width = (innerWidth / (g_cols));
     if (width > 80)
         width = 80;
     let margin = Math.ceil(width / 24);

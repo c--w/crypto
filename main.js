@@ -33,9 +33,9 @@ function init() {
     $("#level").on("change", changeGame);
     $("#wordnum").on("change", changeGame);
     changeGame();
-    window.onresize = function () {
+    window.addEventListener("resize", function () {
         calculateCSS();
-    }
+    }, false);
 }
 
 function changeGame() {
@@ -46,7 +46,7 @@ function changeGame() {
     setCookie("level", level, 730);
     wordnum = $("#wordnum").val();
     setCookie("wordnum", wordnum, 730);
-    if(gamemode == 8) {
+    if (gamemode == 8) {
         $('#level').hide();
         $('#wordnum').hide();
     } else {
@@ -100,7 +100,7 @@ function initGame() {
     $('.progress-bar').css('width', all_guess_words.length / wordnum * 100 + '%')
     $('.progress-bar').text(all_guess_words.length + '/' + wordnum)
     shuffle(dw);
-    if(gamemode == 8) {
+    if (gamemode == 8) {
         hints = 4;
         fillBoardQuotes();
     } else {
@@ -326,10 +326,10 @@ function resolve(prop, num) {
     let values = $.map(options, function (option) {
         return option.value;
     });
-    if(values.indexOf(value) == -1) {
-        value = values[0];        
+    if (values.indexOf("" + value) == -1) {
+        value = values[0];
     }
-    if(num)
+    if (num)
         value = Number(value);
     window[prop] = value;
     $('#' + prop).val(value);
