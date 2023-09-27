@@ -12,7 +12,7 @@ var level;
 var wordnum;
 var last_selected;
 var hints;
-const VERSION = "v3.6";
+const VERSION = "v4.0";
 function init() {
     $('#version').text(VERSION);
     let all_words_div = document.querySelector("#all_words_div");
@@ -46,7 +46,7 @@ function changeGame() {
     setCookie("level", level, 730);
     wordnum = $("#wordnum").val();
     setCookie("wordnum", wordnum, 730);
-    if (gamemode == 8) {
+    if (gamemode > 7) {
         $('#level').hide();
         $('#wordnum').hide();
     } else {
@@ -72,7 +72,7 @@ function setupHints() {
 }
 
 function initKeyboard() {
-    if (level == 4 || gamemode == 8) {
+    if (level == 4 || gamemode > 7) {
         ["Š", "Đ", "Č", "Ć", "Ž", "NJ", "DŽ", "LJ"].forEach(l => $('[l="' + l + '"]').hide());
         ["Q", "W", "X", 'Y'].forEach(l => $('[l="' + l + '"]').show());
     } else {
@@ -103,6 +103,9 @@ function initGame() {
     if (gamemode == 8) {
         hints = 4;
         fillBoardQuotes();
+    } else if (gamemode == 9) {
+        hints = 4;
+        fillBoardFacts();
     } else {
         hints = 7 - wordnum / 10;
         fillBoard();
