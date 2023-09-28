@@ -12,7 +12,7 @@ var level;
 var wordnum;
 var last_selected;
 var hints;
-const VERSION = "v4.0";
+const VERSION = "v4.1";
 function init() {
     $('#version').text(VERSION);
     let all_words_div = document.querySelector("#all_words_div");
@@ -106,6 +106,9 @@ function initGame() {
     } else if (gamemode == 9) {
         hints = 4;
         fillBoardFacts();
+    } else if (gamemode == 10) {
+        hints = 4;
+        fillBoardJokes();
     } else {
         hints = 7 - wordnum / 10;
         fillBoard();

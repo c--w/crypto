@@ -130,6 +130,25 @@ function handleWord(coord, doneall) {
     }
 }
 
+function fillBoardJokes() {
+    $('.progress').hide();
+    $("#hints").css("display", "flex");
+    $('#all_words_div').empty();
+    let joke = jokes[Math.floor(rand() * jokes.length)];
+    g_cols = Math.floor(screen.width / 40);
+    if (g_cols < 12)
+        g_cols = 12;
+    g_rows = Math.ceil(joke.length / g_cols);
+    initGrid(g_rows, g_cols);
+    let all_letters = new Set();
+    joke.toUpperCase().split('').forEach((c, i) => {
+        let x = i % g_cols;
+        let y = Math.floor(i / g_cols)
+        addCell(grid, y, x, c.trim(), all_letters);
+    })
+    calculateCSS();
+}
+
 function fillBoardFacts() {
     $('.progress').hide();
     $("#hints").css("display", "flex");
