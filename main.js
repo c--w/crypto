@@ -12,7 +12,7 @@ var level;
 var wordnum;
 var last_selected;
 var hints;
-const VERSION = "v4.1";
+const VERSION = "v4.2";
 function init() {
     $('#version').text(VERSION);
     let all_words_div = document.querySelector("#all_words_div");
@@ -67,7 +67,7 @@ function setupHints() {
     let hints_div = $('#hints');
     hints_div.empty();
     for (let i = 0; i < hints; i++) {
-        hints_div.append($('<i class="bi bi-lightbulb-fill"></i>'))
+        hints_div.append($('<i class="bi bi-asterisk"></i>'))
     }
 }
 
@@ -80,6 +80,17 @@ function initKeyboard() {
         ["Q", "W", "X", 'Y'].forEach(l => $('[l="' + l + '"]').hide());
     }
     $("#keyboard-div").hide();
+}
+
+function hint() {
+    start_time -= 20 * 1000;
+    let unsolved = $(".full:not(.l)");
+    if(!unsolved.length)
+        return;
+    let el = $(unsolved[0]);
+    let num = el.data('n');
+    let l = el.data('l');
+    revealLetter(num, l, null, true);
 }
 
 function initGame() {
@@ -190,6 +201,17 @@ function revealLetter(num, l, del, fixed) {
         });
         $('.key[l=' + l + ']').addClass('success');
     }
+    if (solved()) {
+        setTimeout(() => {
+            $('#all_words_div > div.full').addClass('winner2');
+        }, 500)
+
+        startFireworks();
+        games++;
+        last_time = Math.round((Date.now() - start_time) / 1000);
+        total_time += last_time;
+        $('#continue').show();
+    }
 }
 
 function handleKeyClick(event) {
@@ -210,17 +232,6 @@ function handleKeyClick(event) {
             $('.key[l=' + ll + ']').removeClass('success');
         }
         revealLetter(num, l)
-        if (solved()) {
-            setTimeout(() => {
-                $('#all_words_div > div.full').addClass('winner2');
-            }, 500)
-
-            startFireworks();
-            games++;
-            last_time = Math.round((Date.now() - start_time) / 1000);
-            total_time += last_time;
-            $('#continue').show();
-        }
     }
 }
 function solved() {

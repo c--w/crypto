@@ -77,6 +77,10 @@ body {
     margin-top: 2vh;
 }
 
+#hints i {
+    margin: 1vmin;
+}
+
 .selected {
     background-color:#bbb;
     border: 0;

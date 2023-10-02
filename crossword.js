@@ -271,6 +271,7 @@ function initGrid2() {
             let div = $('<div>');
             if (l) {
                 div.addClass('full');
+                div.addClass('clickable');
                 all_letters.add(l);
                 let n = Array.from(all_letters).indexOf(l);
                 div.html('<span>' + n + '<span/>');
