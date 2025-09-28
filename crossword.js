@@ -274,7 +274,7 @@ function initGrid2() {
                 div.addClass('clickable');
                 all_letters.add(l);
                 let n = Array.from(all_letters).indexOf(l);
-                div.html('<span>' + n + '<span/>');
+                div.html('<span>' + n + '</span>');
                 div.data('l', l);
                 div.data('n', n);
                 div.attr('n', n);

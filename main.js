@@ -1,4 +1,4 @@
-onload = (event) => init();
+onload = () => init();
 var all_guess_words;
 var last_time = 0;
 var total_time = 0;
@@ -10,9 +10,8 @@ var letters;
 var gamemode;
 var level;
 var wordnum;
-var last_selected;
 var hints;
-const VERSION = "v4.2";
+const VERSION = "v4.3";
 function init() {
     $('#version').text(VERSION);
     let all_words_div = document.querySelector("#all_words_div");
@@ -85,7 +84,7 @@ function initKeyboard() {
 function hint() {
     start_time -= 20 * 1000;
     let unsolved = $(".full:not(.l)");
-    if(!unsolved.length)
+    if (!unsolved.length)
         return;
     let el = $(unsolved[0]);
     let num = el.data('n');
@@ -100,7 +99,7 @@ function initGame() {
     let seed_url;
     seed_url = gamemode + "-" + level + "-" + wordnum + "-" + startseed;
 
-    var url = window.location.origin + window.location.pathname + "#" + seed_url;
+    let url = window.location.origin + window.location.pathname + "#" + seed_url;
     $("#share-url").val(url);
     $("#seed").attr('title', startseed);
     $('#hints i').show();
@@ -161,7 +160,6 @@ function handleClick(event) {
     } else {
         $("#keyboard-div").hide();
     }
-    return;
 }
 
 function showKeyboard(el) {
@@ -172,7 +170,6 @@ function showKeyboard(el) {
     popover.css('-webkit-transform', 'scale(' + scale + ',' + scale + ')');
 
     const targetRect = target.offset();
-    const popoverRect = popover.offset();
     let w = popover.width();
     let top = targetRect.top + target.height() - (1 - scale) * popover.height() / 2;
     let left = targetRect.left + target.width() / 2 - w / 2;
@@ -202,10 +199,6 @@ function revealLetter(num, l, del, fixed) {
         $('.key[l=' + l + ']').addClass('success');
     }
     if (solved()) {
-        setTimeout(() => {
-            $('#all_words_div > div.full').addClass('winner2');
-        }, 500)
-
         startFireworks();
         games++;
         last_time = Math.round((Date.now() - start_time) / 1000);
@@ -269,6 +262,8 @@ function initSeed() {
     }
     let now = new Date();
     seed = now.toISOString().replaceAll("-", "").replaceAll("T", "").replaceAll(":", "").substring(2, 12);
+    seed = Number(seed);
+    seed += seed % 2;
     seed = Number(seed + '0000');
 }
 
@@ -296,8 +291,8 @@ function getRandomWord(len) {
 }
 
 function setBckg() {
-    var color = (Math.random() * 20 + 235 << 0).toString(16) + (Math.random() * 20 + 235 << 0).toString(16) + (Math.random() * 20 + 235 << 0).toString(16);
-    var url = "https://bg.siteorigin.com/api/image?2x=0&blend=40&color=%23" + color + "&intensity=10&invert=0&noise=0&pattern=" + g_patterns[Math.floor(Math.random() * g_patterns.length)];
+    let color = (Math.random() * 20 + 235 << 0).toString(16) + (Math.random() * 20 + 235 << 0).toString(16) + (Math.random() * 20 + 235 << 0).toString(16);
+    let url = "https://bg.siteorigin.com/api/image?2x=0&blend=40&color=%23" + color + "&intensity=10&invert=0&noise=0&pattern=" + g_patterns[Math.floor(Math.random() * g_patterns.length)];
     $('body').css('background-image', 'url(' + url + ')');
 }
 
