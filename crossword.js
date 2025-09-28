@@ -113,7 +113,7 @@ function handleWord(coord, doneall) {
         maxx = coord.x + coord.l * xf;
     if (coord.y + coord.l * yf > maxy)
         maxy = coord.y + coord.l * yf;
-    finishBoard();
+    //finishBoard();
     if (all_guess_words.length < wordnum) {
         let i = all_guess_words.length;
         if ((i % 5) % 2) {
@@ -342,7 +342,7 @@ function finishBoard() {
 }
 
 function calculateCSS() {
-    let innerWidth = screen.width-4;
+    let innerWidth = screen.width - 4;
     if (screen.width < screen.height)
         ;//innerWidth *= screen.height/screen.width;
     let width = (innerWidth / (g_cols));

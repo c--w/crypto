@@ -11,7 +11,7 @@ var gamemode;
 var level;
 var wordnum;
 var hints;
-const VERSION = "v4.3";
+const VERSION = "v4.4";
 function init() {
     $('#version').text(VERSION);
     let all_words_div = document.querySelector("#all_words_div");
@@ -291,9 +291,7 @@ function getRandomWord(len) {
 }
 
 function setBckg() {
-    let color = (Math.random() * 20 + 235 << 0).toString(16) + (Math.random() * 20 + 235 << 0).toString(16) + (Math.random() * 20 + 235 << 0).toString(16);
-    let url = "https://bg.siteorigin.com/api/image?2x=0&blend=40&color=%23" + color + "&intensity=10&invert=0&noise=0&pattern=" + g_patterns[Math.floor(Math.random() * g_patterns.length)];
-    $('body').css('background-image', 'url(' + url + ')');
+    $('body').css('background-image', 'paint(random-pattern)');
 }
 
 function effect(el) {
