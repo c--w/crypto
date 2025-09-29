@@ -291,7 +291,7 @@ function getRandomWord(len) {
 }
 
 function setBckg() {
-    $('body').css('background-image', 'paint(random-pattern)');
+    document.body.style.backgroundImage = "url(https://hpgf.org/srvimg.php)";
 }
 
 function effect(el) {

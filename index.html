@@ -14,11 +14,6 @@
   <link rel="manifest" href="manifest.json">
   <link href="bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="main.css">
-  <script>
-    if ('paintWorklet' in CSS) {
-      CSS.paintWorklet.addModule('pattern.js?' + Date.now());
-    }
-  </script>
 </head>
 
 <body>
@@ -44,7 +39,6 @@
     <select id="wordnum" class="form-select" name="wordnum">
       <option value="20">20 riječi</option>
       <option value="30">30 riječi</option>
-      <option value="40">40 riječi</option>
     </select>
   </div>
 
