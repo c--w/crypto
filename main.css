@@ -61,9 +61,11 @@ body {
     flex-direction: column;
     font-weight: 900;
     color: #444444;
-    background-color: beige;
+    background-color: #F5F5DCF0;
     background-blend-mode: overlay;
     background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
     padding: 0 2px;
 }
 

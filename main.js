@@ -11,7 +11,7 @@ var gamemode;
 var level;
 var wordnum;
 var hints;
-const VERSION = "v4.4";
+const VERSION = "v4.5";
 function init() {
     $('#version').text(VERSION);
     let all_words_div = document.querySelector("#all_words_div");
